@@ -10,12 +10,12 @@ def initialize_energy(spins, strength):
     energy = 0
     num_spins = len(spins)
 
-    energy -= spins[0] * spins[num_spins - 1]
+    energy += spins[0] * spins[num_spins - 1]
 
     for i in range(1, num_spins):
-        energy -= spins[i] * spins[i - 1]
+        energy += spins[i] * spins[i - 1]
 
-    return energy / num_spins
+    return -strength * energy / num_spins
 
 
 @numba.njit(cache=True)
