@@ -5,6 +5,7 @@ MAX_DIFF = 2
 STEP_DIFF = 4
 
 
+@numba.njit(cache=True)
 def initialize_energy(spins, strength):
     energy = 0
     num_spins = len(spins)
@@ -17,6 +18,7 @@ def initialize_energy(spins, strength):
     return energy
 
 
+@numba.njit(cache=True)
 def sample_ising(spins, num_cycles, temperature, strength=1):
     energy = initialize_energy(spins, strength)
     num_spins = len(spins)
