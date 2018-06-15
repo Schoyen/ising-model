@@ -28,7 +28,7 @@ def sample_ising(spins, num_cycles, temperature, strength=1):
         -strength * np.arange(-MAX_DIFF, MAX_DIFF + 1, STEP_DIFF) / temperature
     )
 
-    for cycle in num_cycles:
+    for cycle in range(num_cycles):
         for i in range(num_spins):
             ix = np.random.randint(num_spins)
 
