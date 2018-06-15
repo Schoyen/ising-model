@@ -15,7 +15,7 @@ def initialize_energy(spins, strength):
     for i in range(1, num_spins):
         energy -= spins[i] * spins[i - 1]
 
-    return energy
+    return energy / num_spins
 
 
 @numba.njit(cache=True)
