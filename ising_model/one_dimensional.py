@@ -15,14 +15,14 @@ def initialize_energy(spins, strength):
     for i in range(1, num_spins):
         energy += spins[i] * spins[i - 1]
 
-    return -strength * energy / num_spins
+    return -strength * energy
 
 
 @numba.njit(cache=True)
 def sample_ising(spins, num_cycles, temperature, strength=1):
     energy = initialize_energy(spins, strength)
     num_spins = len(spins)
-    norm = 1.0 / float(num_cycles * num_spins)
+    norm = 1.0 / float(num_cycles)
 
     energy_diff = np.exp(
         -strength * np.arange(-MAX_DIFF, MAX_DIFF + 1, STEP_DIFF) / temperature
