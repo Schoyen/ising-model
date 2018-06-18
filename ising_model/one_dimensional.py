@@ -17,10 +17,15 @@ def initial_energy(spins, strength):
 
 @numba.njit(cache=True)
 def sample_ising(spins, num_cycles, temperature, strength=1):
-    energy = initial_energy(spins, strength)
     num_spins = len(spins)
-    norm = 1.0 / float(num_cycles)
 
+    energy_arr = np.zeros(num_cycles * num_spins)
+    energy = initial_energy(spins, strength)
+
+    cycles = num_cycles * num_spins
+
+    for i in range(cycles):
+        ix = np.random.randint(num_spins)
 
     for cycle in range(num_cycles):
         for i in range(num_spins):
@@ -34,5 +39,6 @@ def sample_ising(spins, num_cycles, temperature, strength=1):
             spins[ix] *= -1.0
             energy += delta_energy
 
+        energy_arr[i] = energy
 
-    return energy * norm
+    return np.sum(energy_arr) / energy_arr.size
