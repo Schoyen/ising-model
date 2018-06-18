@@ -27,13 +27,10 @@ def sample_ising(spins, num_cycles, temperature, strength=1):
     for i in range(cycles):
         ix = np.random.randint(num_spins)
 
-    for cycle in range(num_cycles):
-        for i in range(num_spins):
-            ix = np.random.randint(num_spins)
-            ix_high = (ix + 1) if ix < (num_spins - 1) else 0
-            ix_low = (ix - 1) if ix > 1 else (num_spins - 1)
+        left = spins[ix - 1] if ix > 0 else spins[num_spins - 1]
+        right = spins[ix + 1] if ix < (num_spins - 1) else spins[0]
 
-            delta_energy = 2 * spins[ix] * (spins[ix_high] + spins[ix_low])
+        delta_energy = 2 * strength * spins[ix] * (left + right)
 
         if np.random.random() <= np.exp(-delta_energy / temperature):
             spins[ix] *= -1.0
