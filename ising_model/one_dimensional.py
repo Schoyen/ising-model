@@ -16,7 +16,9 @@ def initial_energy(spins, strength):
 
 
 @numba.njit(cache=True)
-def sample_ising(spins, num_cycles, temperature, strength=1):
+def sample_ising(
+    spins, num_cycles, temperature, strength=1, num_thermalization_steps=0
+):
     num_spins = len(spins)
     num_cycles *= num_spins
 
@@ -36,5 +38,9 @@ def sample_ising(spins, num_cycles, temperature, strength=1):
             energy += delta_energy
 
         energy_arr[i] = energy
+
+    assert num_thermalization_steps < energy_arr.size
+
+    energy_arr = energy_arr[num_thermalization_steps:]
 
     return np.sum(energy_arr) / energy_arr.size
