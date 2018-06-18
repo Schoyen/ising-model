@@ -1,6 +1,7 @@
 # Python cache
 *.pyc
 __pycache__
+.pytest_cache
 
 # Swap files
 *.swp
