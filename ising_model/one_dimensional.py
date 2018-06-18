@@ -1,9 +1,6 @@
 import numpy as np
 import numba
 
-MAX_DIFF = 2
-STEP_DIFF = 4
-
 
 @numba.njit(cache=True)
 def initial_energy(spins, strength):
@@ -24,9 +21,6 @@ def sample_ising(spins, num_cycles, temperature, strength=1):
     num_spins = len(spins)
     norm = 1.0 / float(num_cycles)
 
-    energy_diff = np.exp(
-        -strength * np.arange(-MAX_DIFF, MAX_DIFF + 1, STEP_DIFF) / temperature
-    )
 
     for cycle in range(num_cycles):
         for i in range(num_spins):
@@ -36,10 +30,9 @@ def sample_ising(spins, num_cycles, temperature, strength=1):
 
             delta_energy = 2 * spins[ix] * (spins[ix_high] + spins[ix_low])
 
-            diff_index = int((delta_energy + MAX_DIFF) / float(STEP_DIFF))
+        if np.random.random() <= np.exp(-delta_energy / temperature):
+            spins[ix] *= -1.0
+            energy += delta_energy
 
-            if np.random.random() <= energy_diff[diff_index]:
-                spins[ix] *= -1.0
-                energy += delta_energy
 
     return energy * norm
