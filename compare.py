@@ -21,7 +21,13 @@ for i, temperature in enumerate(tqdm.tqdm(temperatures)):
 
     sampled_energies[i] = energy
 
-plt.plot(temperatures, exact_energy(num_spins, temperatures), label="Exact")
+exact_energies = exact_energy(num_spins, temperatures)
+plt.plot(temperatures, exact_energies, label="Exact")
 plt.plot(temperatures, sampled_energies, label="Sampled")
 plt.legend(loc="best")
 plt.show()
+
+sampled_area = np.trapz(sampled_energies, temperatures)
+exact_area = np.trapz(exact_energies, temperatures)
+
+assert abs(exact_area - sampled_area) < 1.0
