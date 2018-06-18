@@ -6,7 +6,7 @@ STEP_DIFF = 4
 
 
 @numba.njit(cache=True)
-def initialize_energy(spins, strength):
+def initial_energy(spins, strength):
     energy = 0
     num_spins = len(spins)
 
@@ -20,7 +20,7 @@ def initialize_energy(spins, strength):
 
 @numba.njit(cache=True)
 def sample_ising(spins, num_cycles, temperature, strength=1):
-    energy = initialize_energy(spins, strength)
+    energy = initial_energy(spins, strength)
     num_spins = len(spins)
     norm = 1.0 / float(num_cycles)
 
